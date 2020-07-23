@@ -21,8 +21,8 @@ mongoose
   .catch(err => console.log(err));
 
 
-app.use('/user', user);
-router.use('/board', board);
+app.use('/users', user);
+app.use('/board', board);
 
 const port = 3009;
 

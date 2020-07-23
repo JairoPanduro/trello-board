@@ -4,7 +4,7 @@ const router = express.Router();
 const Board = require('../models/Board'); 
 const User = require('../models/User'); 
 
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
   try {
     const user = await User.findOne({ token: req.headers.token });
     if (user) {
@@ -18,8 +18,18 @@ const auth = (req, res, next) => {
 };
 
 router.get('/', auth, async (req, res) => {
-  const board = await Board.find({});
-  res.send(board);
+  const board = await Board.findOne({ id: 1});
+  res.send(board ? board.data : null);
+});
+
+router.put('/', auth, async (req, res) => {
+  const board = await Board.findOne({ id: 1});
+  if (board) {
+    board.data = req.body;
+    board.save();
+    return res.send(board.data);
+  }
+  res.send(null);
 });
 
 module.exports = router;

@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { Link, useHistory } from "react-router-dom";
 
 import { login } from "../actions";
 
-const LoginPage = () => {
+const LoginPage = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);
-    history.push('/board');
+    const loggedIn = await props.login(email, password);
+    if (loggedIn) {
+      history.push('/board');
+    }
   };
 
   return (
@@ -26,7 +30,7 @@ const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
-            type="text"
+            type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -40,4 +44,13 @@ const LoginPage = () => {
 };
 
 
-export default LoginPage;
+const mapDispatchToProps = {
+  login
+}
+
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps,
+  )
+)(LoginPage);

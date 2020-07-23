@@ -13,7 +13,8 @@ router.post('/login', async (req, res) => {
     if (user.validatePassword(req.body.password)) {
       return res.status(200).send({
         message: 'Logged In',
-        token: user.token
+        token: user.token,
+        email: user.email
       });
     }
   

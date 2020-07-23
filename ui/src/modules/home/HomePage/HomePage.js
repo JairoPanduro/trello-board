@@ -5,7 +5,6 @@ import { Redirect } from "react-router-dom";
 
 
 const HomePage = ({ user }) => {
-  console.log(user);
   if (user.token) {
     return (
       <Redirect to="/board" />

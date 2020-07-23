@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { Link, useHistory } from "react-router-dom";
 
 import { register } from "../actions";
 
-const RegistrationPage = () => {
+const RegistrationPage = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await register(email, password);
+    await props.register(email, password);
     history.push('/login');
   };
 
@@ -43,5 +45,14 @@ const RegistrationPage = () => {
   )
 };
 
+const mapDispatchToProps = {
+  register
+}
 
-export default RegistrationPage;
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps,
+  )
+)(RegistrationPage);
+

@@ -13,9 +13,11 @@ export const login = (email, password) => async (dispatch) => {
       type: LOGIN,
       payload: data
     });
+    return true;
   } catch (e) {
     dispatch(handleError(e));
   }
+  return false;
 }
 
 export const register = (email, password) => async (dispatch) => {
