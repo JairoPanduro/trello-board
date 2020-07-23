@@ -1,24 +1,12 @@
 import React from 'react';
-
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { Redirect } from "react-router-dom";
 
-import LoginPage from '../LoginPage';
 
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    fakeAuth.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    fakeAuth.isAuthenticated = false;
-    setTimeout(cb, 100);
-  }
-};
-
-
-const HomePage = () => {
-  if (fakeAuth.isAuthenticated) {
+const HomePage = ({ user }) => {
+  console.log(user);
+  if (user.token) {
     return (
       <Redirect to="/board" />
     )
@@ -26,3 +14,10 @@ const HomePage = () => {
 
   return (<Redirect to="/login" />);
 };
+
+
+const mapStateToProps = (state) => ({
+  user: state.user
+});
+
+export default compose(connect(mapStateToProps))(HomePage);
