@@ -2,10 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+const user = require('./routes/user'); 
+const board = require('./routes/board'); 
+
 const app = express();
+const router = express.Router();
 
 app.set('view engine', 'ejs');
-
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 mongoose
@@ -16,14 +20,9 @@ mongoose
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
-app.post('/login', (req, res) => {
-});
 
-app.post('/register', (req, res) => {
-});
-
-app.post('/', (req, res) => {
-});
+app.use('/user', user);
+router.use('/board', board);
 
 const port = 3009;
 
